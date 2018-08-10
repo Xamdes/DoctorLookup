@@ -31,23 +31,8 @@ $(function()
    
     $.get(url+insertIntoUrl+`&user_key=${doctorLookup.GetKey()}`, function (values)
     {
-      console.log(url);
       let tempDoctors = values.data;
-      if (tempDoctors.length != 0)
-      {
-        for (let i = 0; i < tempDoctors.length; i++)
-        {
-          let name = tempDoctors[i].profile.title;
-          name += " " + tempDoctors[i].profile.first_name;
-          name += " "+ tempDoctors[i].profile.last_name;
-          $('#info-list').append("<li>" + name + "</li>");
-        }
-      }
-      else
-      {
-        $('#info-list').append("<li>" + "No Doctors Meet the Criteria" + "</li>");
-      }
-      console.log(tempDoctors);
+      OutputList(tempDoctors);
     });
   });
 
@@ -59,26 +44,88 @@ $(function()
     let url = doctorLookup.GetUrl() + `&query=${tempQuery}` + `&user_key=${doctorLookup.GetKey()}`;
     $.get(url , function (values)
     {
-      console.log(url);
       let tempSpecialties = values.data;
-      console.log(tempSpecialties);
-
-      if (tempSpecialties.length != 0)
-      {
-        for (let i = 0; i < tempSpecialties.length; i++)
-        {
-          let name = tempSpecialties[i].profile.title;
-          name += " " + tempSpecialties[i].profile.first_name;
-          name += " " + tempSpecialties[i].profile.last_name;
-          $('#info-list').append("<li>" + name + "</li>");
-        }
-      }
-      else
-      {
-        $('#info-list').append("<li>" + "No Doctors Meet the Criteria" + "</li>");
-      }
+      OutputList(tempSpecialties); 
     });
   });
 });
+
+
+function OutputList(tempSpecialties)
+{
+  console.log(tempSpecialties);
+  if (tempSpecialties.length != 0)
+  {
+    for (let i = 0; i < tempSpecialties.length; i++)
+    {
+      let name = tempSpecialties[i].profile.title;
+      let practices = tempSpecialties[i].practices;
+
+      name += " " + tempSpecialties[i].profile.first_name;
+      name += " " + tempSpecialties[i].profile.last_name;
+
+      let index = 0;
+      for (let j = 0; j < practices.length; j++)
+      {
+        if (practices[j].within_search_area)
+        {
+          index = j;
+        }
+      }
+      let practice = practices[index];
+      let visitAddress = practice.visit_address;
+      let address = visitAddress.street;
+      if (typeof visitAddress.street2 != 'undefined')
+      {
+        address += ", " + visitAddress.street2
+      }
+
+      address += ", " + visitAddress.city + ", " + visitAddress.state + ", " + visitAddress.zip;
+
+      index = 0;
+      for (let j = 0; j < practice.phones.length; j++)
+      {
+        if (practice.phones[j].type === 'landline')
+        {
+          index = j;
+        }
+      }
+      
+      let phone = practice.phones[index].number;
+      let website = practice.website;
+      if (typeof website === 'undefined')
+      {
+        website = "Not Listed";
+      }
+      let newPatients = "No";
+      if (practice.accepts_new_patients)
+      {
+        newPatients = "Yes";
+      }
+
+      let doctorInfo = "<li>" + name +
+        "<ul>" +
+        "<li>" +
+        address +
+        "</li>" +
+        "<li>" +
+        phone +
+        "</li>" +
+        "<li>" +
+        website +
+        "</li>" +
+        "<li>" +
+        newPatients +
+        "</li>" +
+        "</ul>" +
+        "</li>";
+      $('#info-list').append(doctorInfo);
+    }
+  }
+  else
+  {
+    $('#info-list').append("<li>" + "No Doctors Meet the Criteria" + "</li>");
+  }
+}
 
 
