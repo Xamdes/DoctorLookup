@@ -29,10 +29,17 @@ $(function()
       insertIntoUrl = `&name=${firstName}_${lastName}`;
     }
    
-    $.get(url+insertIntoUrl+`&user_key=${doctorLookup.GetKey()}`, function (values)
+    $.get(url + insertIntoUrl + `&user_key=${doctorLookup.GetKey()}`, function (values, status,xhr)
     {
-      let tempDoctors = values.data;
-      OutputList(tempDoctors);
+      if (xhr.status === 200)
+      {
+        let tempDoctors = values.data;
+        OutputList(tempDoctors);
+      }
+      else
+      {
+        $('#info-list').html("An error has occurred code:" + xhr.status);
+      }
     });
   });
 
@@ -42,10 +49,18 @@ $(function()
     let tempQuery = $('#issue').val();
 
     let url = doctorLookup.GetUrl() + `&query=${tempQuery}` + `&user_key=${doctorLookup.GetKey()}`;
-    $.get(url , function (values)
+    $.get(url, function (values, status, xhr)
     {
-      let tempSpecialties = values.data;
-      OutputList(tempSpecialties); 
+      if (xhr.status === 200)
+      {
+        let tempSpecialties = values.data;
+        OutputList(tempSpecialties);
+      }
+      else
+      {
+        $('#info-list').html("An error has occurred code:" + xhr.status);
+      }
+      
     });
   });
 });
@@ -53,7 +68,7 @@ $(function()
 
 function OutputList(tempSpecialties)
 {
-  console.log(tempSpecialties);
+  //console.log(tempSpecialties);
   if (tempSpecialties.length != 0)
   {
     for (let i = 0; i < tempSpecialties.length; i++)
