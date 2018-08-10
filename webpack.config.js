@@ -4,6 +4,27 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const net = require('net');
+const cors = require('cors');
+const express = require('express');
+const app = express();
+
+app.use(function (req, res, next)
+{
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.get('/', function (req, res, next)
+{
+  // Handle the get for this route
+});
+
+app.post('/', function (req, res, next)
+{
+  // Handle the post for this route
+});
 
 module.exports =
 {
@@ -14,8 +35,6 @@ module.exports =
     path: path.resolve(__dirname, 'dist')
   },
   devtool: 'source-map',
-  //eval-source-map for development
-  //source-map for production
   devServer: {
     contentBase: './dist'
   },
