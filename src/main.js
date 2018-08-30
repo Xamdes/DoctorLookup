@@ -28,7 +28,7 @@ $(function()
     {
       insertIntoUrl = `&name=${firstName}_${lastName}`;
     }
-   
+
     $.get(url + insertIntoUrl + `&user_key=${doctorLookup.GetKey()}`, function (values, status,xhr)
     {
       if (xhr.status === 200)
@@ -60,7 +60,7 @@ $(function()
       {
         $('#info-list').html("An error has occurred code:" + xhr.status);
       }
-      
+
     });
   });
 });
@@ -105,7 +105,7 @@ function OutputList(tempSpecialties)
           index = j;
         }
       }
-      
+
       let phone = practice.phones[index].number;
       let website = practice.website;
       if (typeof website === 'undefined')
@@ -142,5 +142,3 @@ function OutputList(tempSpecialties)
     $('#info-list').append("<li>" + "No Doctors Meet the Criteria" + "</li>");
   }
 }
-
-

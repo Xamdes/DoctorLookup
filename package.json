@@ -4,9 +4,10 @@
   "description": "Lookup Doctors uing API",
   "main": "index.js",
   "scripts": {
+    "npm": "npm",
+    "webpack-dev-server": "webpack-dev-server",
     "build": "webpack --mode development",
-    "start:dev": "webpack-dev-server",
-    "start": "npm run build; npm run start:dev --open",
+    "start": "npm run build; npm run webpack-dev-server",
     "lint": "eslint src/*.js",
     "jamsine": "jasmine",
     "test": "karma start karma.conf.js"
