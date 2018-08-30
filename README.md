@@ -10,11 +10,11 @@
 ## Instructions
 
   * Get Api from https://developer.betterdoctor.com/
-  * .env File in Root Directory
-    * API_KEY=[API_KEY GOES HERE]
   * git clone https://github.com/Xamdes/DoctorLookup.git
   * cd into DoctorLookup
-  * run command
+  * Create .env File in Root Directory
+    * put API_KEY=[API_KEY GOES HERE] in top line of file
+  * run command in root folder
     * npm install; open http://localhost:8080/; npm start
     * reload http://localhost:8080/ in browser
 
